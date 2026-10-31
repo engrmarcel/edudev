@@ -1,0 +1,34 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+/**
+ * Admin-editable platform settings (branding, contact details, feature toggles).
+ *
+ * Values here override the defaults in config/edudev.php. Secrets (API keys,
+ * payment credentials) must NEVER be stored here — they live in .env or a
+ * secret manager.
+ */
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('system_settings', function (Blueprint $table) {
+            $table->id();
+            $table->string('group', 64);
+            $table->string('key', 128);
+            $table->json('value')->nullable();
+            $table->foreignId('updated_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->timestamps();
+
+            $table->unique(['group', 'key']);
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('system_settings');
+    }
+};

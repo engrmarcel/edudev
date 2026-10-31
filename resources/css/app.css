@@ -1,0 +1,159 @@
+@import 'tailwindcss';
+@import '../../vendor/livewire/flux/dist/flux.css';
+
+@source "../views";
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../vendor/livewire/flux-pro/stubs/**/*.blade.php';
+@source '../../vendor/livewire/flux/stubs/**/*.blade.php';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+|--------------------------------------------------------------------------
+| EduDEV design tokens
+|--------------------------------------------------------------------------
+| Brand colours are CSS variables so admins can change them at runtime
+| (Admin → Branding prints overrides into <head>). Use the SEMANTIC
+| utilities (bg-primary, text-ink, border-line ...) in templates, never raw
+| hex values. See docs/BRANDING_GUIDE.md for contrast rules.
+*/
+:root {
+    --brand-primary: #0B2545;   /* Deep Navy */
+    --brand-secondary: #13A987; /* Education Green */
+    --brand-accent: #F2A541;    /* Achievement Gold */
+}
+
+@theme inline {
+    /* Brand (runtime-configurable) */
+    --color-primary: var(--brand-primary);
+    --color-secondary: var(--brand-secondary);
+    --color-gold: var(--brand-accent);
+
+    /* Accessible text/button shade of Education Green (5.1:1 on white).
+       #13A987 itself is only ~3:1 with white text: use it for decoration
+       and large text only. */
+    --color-secondary-strong: color-mix(in oklab, var(--brand-secondary) 78%, black);
+}
+
+@theme {
+    --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+    --color-primary-foreground: #FFFFFF;
+    --color-gold-foreground: #0B2545;
+
+    /* Surfaces and text */
+    --color-surface: #FFFFFF;
+    --color-surface-alt: #F5F7FA;
+    --color-ink: #1F2937;
+    --color-ink-soft: #475569;   /* use for small text on surface-alt */
+    --color-muted: #64748B;      /* 4.75:1 on white, 4.4:1 on surface-alt */
+    --color-line: #E2E8F0;
+    --color-focus: #2563EB;
+    --color-disabled: #CBD5E1;
+
+    /* Status (always pair with an icon or text label, never colour alone) */
+    --color-success: #0E7C63;
+    --color-success-soft: #E7F6F1;
+    --color-warning: #B45309;
+    --color-warning-soft: #FEF3E2;
+    --color-danger: #B91C1C;
+    --color-danger-soft: #FDECEC;
+    --color-info: #1D4ED8;
+    --color-info-soft: #E8EEFC;
+
+    /* Neutral scale used by Flux components */
+    --color-zinc-50: #F8FAFC;
+    --color-zinc-100: #F1F5F9;
+    --color-zinc-200: #E2E8F0;
+    --color-zinc-300: #CBD5E1;
+    --color-zinc-400: #94A3B8;
+    --color-zinc-500: #64748B;
+    --color-zinc-600: #475569;
+    --color-zinc-700: #334155;
+    --color-zinc-800: #1E293B;
+    --color-zinc-900: #0F172A;
+    --color-zinc-950: #020617;
+
+    /* Flux accent = brand primary */
+    --color-accent: var(--brand-primary);
+    --color-accent-content: var(--brand-primary);
+    --color-accent-foreground: #FFFFFF;
+}
+
+@layer theme {
+    .dark {
+        --color-accent: var(--brand-secondary);
+        --color-accent-content: var(--brand-secondary);
+        --color-accent-foreground: #0B2545;
+    }
+}
+
+@layer base {
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-line, currentColor);
+    }
+
+    html {
+        -webkit-text-size-adjust: 100%;
+    }
+
+    /* Visible keyboard focus everywhere; mouse clicks don't show the ring. */
+    :focus-visible {
+        outline: 3px solid var(--color-focus);
+        outline-offset: 2px;
+        border-radius: 4px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        *, ::before, ::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+        }
+    }
+}
+
+/* Reusable component classes (Tailwind v4 @utility so they can compose). */
+@utility btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-60;
+}
+@utility btn-primary {
+    @apply btn bg-primary text-primary-foreground hover:bg-primary/90;
+}
+@utility btn-secondary {
+    @apply btn bg-secondary-strong text-white hover:bg-secondary-strong/90;
+}
+@utility btn-gold {
+    @apply btn bg-gold text-gold-foreground hover:bg-gold/90;
+}
+@utility btn-outline {
+    @apply btn border border-line bg-surface text-ink hover:bg-surface-alt;
+}
+@utility card {
+    @apply rounded-2xl border border-line bg-surface p-6 dark:border-zinc-700 dark:bg-zinc-900;
+}
+@utility eyebrow {
+    @apply text-xs font-semibold tracking-widest text-secondary-strong uppercase;
+}
+@utility skip-link {
+    @apply sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-white;
+}
+
+[data-flux-field] {
+    @apply grid gap-2;
+}
+
+[data-flux-label] {
+    @apply !mb-0 !leading-tight;
+}
+
+input:focus[data-flux-control],
+textarea:focus[data-flux-control],
+select:focus[data-flux-control] {
+    @apply outline-hidden ring-2 ring-accent ring-offset-2 ring-offset-accent-foreground;
+}
