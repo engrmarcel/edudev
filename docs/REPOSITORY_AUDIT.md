@@ -46,7 +46,7 @@ The directory was **empty**: no code, no database, no Git repository. There were
 
 | ID | Risk | Impact | Mitigation |
 |---|---|---|---|
-| R1 | No Git, so there is no change history or rollback | High | Install Git for Windows, run `git init`, and commit before Phase 2. |
+| R1 | No Git at the start | High | **Resolved 2026-10-31:** Git was installed but not on PATH. The repository was pushed to github.com/engrmarcel/edudev. |
 | R2 | Network to packagist.org dropped intermittently during setup | Low | Retry. `composer.lock` pins exact versions. |
 | R3 | Shared hosting may lack queue workers, cron or Redis | Medium | See DEPLOYMENT_GUIDE; a VPS is recommended. |
 | R4 | AI provider cost overruns | High | Usage reservation and limits are built before the AI Tutor launches (Phase 4). |

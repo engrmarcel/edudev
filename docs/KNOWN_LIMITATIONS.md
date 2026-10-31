@@ -8,6 +8,6 @@
 6. **School and CBT centre verification is manual.** Onboarding records the organisation; nothing institutional is switched on until Phase 8.
 6. **Email verification is on**, but local mail is written to the log file. A real mail provider is needed before launch.
 7. **The logo is a draft SVG.** Final artwork, trademark and domain checks are outstanding.
-8. **No Git repository**, because Git isn't installed on this machine.
+8. **Source control:** Git is set up, and the code is on GitHub at https://github.com/engrmarcel/edudev (branch `main`).
 9. **No browser or visual tests yet.** Pages were checked by HTTP status, not screenshots.
 10. **Mail and social links are placeholders** (`support@example.com`). Set the real values in Admin → Branding.
